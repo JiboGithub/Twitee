@@ -4,6 +4,7 @@ const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const passport = require('passport')
+const PORT = process.env.PORT || 3000;
 
 const users = require('./routers/users')
 const posts = require('./routers/posts')
@@ -23,6 +24,6 @@ require('./config/passport')(passport)
 app.use('/api/users', users)
 app.use('/api/posts', posts)
 
-app.listen( 5000, () => {
-	console.log( "server has started on port 3000" );
-}); 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
