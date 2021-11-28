@@ -1,9 +1,9 @@
 const mysql = require('mysql')
 
 module.exports = mySqlConnection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: 'Legendsmall19',
+	host: 'us-cdbr-east-04.cleardb.com',
+	user: 'be4c0bd34d1cf5',
+	password: '313db43b',
 	database: 'TwiteeDb'
 
     
