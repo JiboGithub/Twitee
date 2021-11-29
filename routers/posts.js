@@ -22,7 +22,7 @@ router.route('/add')
 			var sql = `INSERT INTO posts (UserId, PostContent, DatePosted, TimePosted) 
 			values(?,?,?,?)`;
 			conn.query(sql, [newPost.userId, newPost.text.toString(), 
-				(new Date().toLocaleDateString("en-US")), (new Date().toLocaleTimeString())],
+				Date.now().toLocaleString("en-US"), (new Date().toLocaleTimeString())],
 				(error, post, fields) => {
 				if(error){
 					return res.status(404).json(error)

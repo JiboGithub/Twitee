@@ -38,7 +38,7 @@ router.route('/register')
 
 		var sql = `INSERT INTO users (Name, Email, Password, DateCreated)
 		values(?,?,?,?)`;
-		conn.query(sql, [newUser.userName, newUser.email, newUser.password, (new Date().toLocaleDateString("en-US"))],
+		conn.query(sql, [newUser.userName, newUser.email, newUser.password, Date.now().toLocaleString("en-US")],
 			(error, rows, fields) => {
 				if(error){
 					return res.status(404).json(error)
