@@ -2,9 +2,9 @@ const mysql = require('mysql')
 
 module.exports = mySqlConnection = mysql.createConnection({
 	host: 'us-cdbr-east-04.cleardb.com',
-	user: 'be4c0bd34d1cf5',
-	password: '313db43b',
-	database: 'heroku_d3562f421d86026',
+	user: 'bd2e0d27b93aad',
+	password: '8547866a',
+	database: 'heroku_36eed05c4d3c685',
 	port: 3036
 
     
