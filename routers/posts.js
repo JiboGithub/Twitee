@@ -19,9 +19,10 @@ router.route('/add')
 				text: text
 			}
 
-			var sql = `INSERT INTO posts (UserId, PostContent) 
-			values(?,?)`;
-			conn.query(sql, [newPost.userId, newPost.text.toString()],
+			var sql = `INSERT INTO posts (UserId, PostContent, DatePosted, TimePosted) 
+			values(?,?,?,?)`;
+			conn.query(sql, [newPost.userId, newPost.text.toString(), 
+				Date.now().toLocaleString("en-US"), Date.toLocaleTimeString("en-US")],
 				(error, post, fields) => {
 				if(error){
 					return res.status(404).json(error)
