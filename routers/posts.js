@@ -21,8 +21,8 @@ router.route('/add')
 
 			var sql = `INSERT INTO posts (UserId, PostContent, DatePosted, TimePosted) 
 			values(?,?,?,?)`;
-			conn.query(sql, [newPost.userId, newPost.text.toString(), 
-				Date.now(), (new Date().toLocaleTimeString())],
+			conn.query(sql, [newPost.userId, newPost.text, 
+				newPost.createdAt, (new Date().toLocaleTimeString())],
 				(error, post, fields) => {
 				if(error){
 					return res.status(404).json(error)
@@ -117,13 +117,10 @@ router.route('/comment')
 		const newComment = req.body.comment;
 		const postId = req.body.postId;
 
-		console.log(commenter, newComment, postId)
-		
 		if(commenter && postId)
 		{ 
 			var sql = `INSERT INTO comments (CommentedBy, Comment, PostId) values(?,?,?)`;
 			conn.query(sql, [commenter, newComment, postId], (error, post, fields) => {
-				console.log(post)
 				if(post.affectedRows > 0){
 					return res.status(200).json({ msg: 'Comment successfully added to this post'})
 				} else {

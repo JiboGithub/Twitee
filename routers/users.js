@@ -43,7 +43,6 @@ router.route('/register')
 				if(error){
 					return res.status(404).json(error)
 				}
-				console.log(res.statusCode);
 			})
 
 			if(res.statusCode == 200){
@@ -78,12 +77,12 @@ router.route('/login')
 			const result = JSON.parse(JSON.stringify(rows))
 			const userid = result[0].UserId;
 			const email = result[0].Email;
-			console.log(userid);
-	
+			
 			if(rows.length > 0){
 				bcrypt.compare(req.body.password, result[0].Password)
 				.then(isMatch => {
 				if (isMatch) {
+					conn.off()
 					const token = jwt.sign({ id: userid, email: email}, process.env.SECRET, { expiresIn: '1d' }, function (err, token) {
 						return res.json({
 							message: 'Login Successful',
@@ -110,10 +109,11 @@ router.route('/login')
 
 router.route('/')
 	.get( passport.authenticate('jwt', { session: false }),(req, res) => {
-		res.json({
-			userId: req.user[0].UserId
+			res.json({
+				userId: (res.statusCode != 200) ? req.user[0].UserId 
+				: res.sendStatus(404).json()
+			})
 		})
-})
 
 
 router.route('/search')
@@ -121,9 +121,7 @@ router.route('/search')
 		conn.query(`SELECT * FROM users WHERE Name = ? or Email = ?`, 
 		[req.query.userName, req.query.email], 
 		(error, user, fields) => {
-			console.log(user)
 			var result = JSON.parse(JSON.stringify(user))
-			console.log(result)
 			if(user.length > 0){
 				return res.send(result)
 			} else {
