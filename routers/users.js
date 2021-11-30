@@ -35,10 +35,9 @@ router.route('/register')
 			password: bcrypt.hashSync(req.body.password, 10),
 			userName: userName
 		};
-
 		var sql = `INSERT INTO users (Name, Email, Password, DateCreated)
-		values(?,?,?,?)`;
-		conn.query(sql, [newUser.userName, newUser.email, newUser.password, Date.now()],
+		values(?,?,?, NOW())`;
+		conn.query(sql, [newUser.userName, newUser.email, newUser.password],
 			(error, rows, fields) => {
 				if(error){
 					return res.status(404).json(error)
@@ -46,8 +45,8 @@ router.route('/register')
 			})
 
 			if(res.statusCode == 200){
-				sendWelcomeEmail(email, userName, "Twitee", 
-				"Account Activation", `Welcome to Twitee ${userName}, Your account has been created`);
+				// sendWelcomeEmail(email, userName, "Twitee", 
+				// "Account Activation", `Welcome to Twitee ${userName}, Your account has been created`);
 				return res.status(200)
 				.json({ message: "Registration Successful, A welcome email was sent to you, Kindly check spam, if not in inbox", 
 				status: res.statusMessage, record: newUser })
@@ -77,12 +76,11 @@ router.route('/login')
 			const result = JSON.parse(JSON.stringify(rows))
 			const userid = result[0].UserId;
 			const email = result[0].Email;
-			
+	
 			if(rows.length > 0){
 				bcrypt.compare(req.body.password, result[0].Password)
 				.then(isMatch => {
 				if (isMatch) {
-					conn.off()
 					const token = jwt.sign({ id: userid, email: email}, process.env.SECRET, { expiresIn: '1d' }, function (err, token) {
 						return res.json({
 							message: 'Login Successful',
@@ -109,11 +107,10 @@ router.route('/login')
 
 router.route('/')
 	.get( passport.authenticate('jwt', { session: false }),(req, res) => {
-			res.json({
-				userId: (res.statusCode != 200) ? req.user[0].UserId 
-				: res.sendStatus(404).json()
-			})
+		res.json({
+			userId: req.user[0].UserId
 		})
+})
 
 
 router.route('/search')

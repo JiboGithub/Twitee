@@ -20,7 +20,7 @@ router.route('/add')
 			}
 
 			var sql = `INSERT INTO posts (UserId, PostContent, DatePosted, TimePosted) 
-			values(?,?,?,?)`;
+			values(?,?,NOW(),CURRENT_TIME())`;
 			conn.query(sql, [newPost.userId, newPost.text, 
 				newPost.createdAt, (new Date().toLocaleTimeString())],
 				(error, post, fields) => {
