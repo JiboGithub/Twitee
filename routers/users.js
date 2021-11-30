@@ -45,8 +45,8 @@ router.route('/register')
 			})
 
 			if(res.statusCode == 200){
-				// sendWelcomeEmail(email, userName, "Twitee", 
-				// "Account Activation", `Welcome to Twitee ${userName}, Your account has been created`);
+				sendWelcomeEmail(email, userName, "Twitee", 
+				"Account Activation", `Welcome to Twitee ${userName}, Your account has been created`);
 				return res.status(200)
 				.json({ message: "Registration Successful, A welcome email was sent to you, Kindly check spam, if not in inbox", 
 				status: res.statusMessage, record: newUser })
