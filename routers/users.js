@@ -24,7 +24,7 @@ router.route('/register')
 
 		conn.query('SELECT * FROM users where Email = ? LIMIT 1', [req.body.email],
 		(error, rows, fields) => {
-			if(rows){
+			if(rows.length != 0){
 				errors.email = 'Email is registered by another user!'
 				return res.status(404).json(errors)
 			}
