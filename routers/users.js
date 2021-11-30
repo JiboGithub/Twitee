@@ -74,10 +74,10 @@ router.route('/login')
 		conn.query('SELECT * FROM users where Email = ? LIMIT 1', [req.body.email], 
 		(error, rows, fields) => {
 			const result = JSON.parse(JSON.stringify(rows))
-			const userid = result[0].UserId;
-			const email = result[0].Email;
 	
 			if(rows.length > 0){
+				const email = result[0].Email;
+				const userid = result[0].UserId;
 				bcrypt.compare(req.body.password, result[0].Password)
 				.then(isMatch => {
 				if (isMatch) {
