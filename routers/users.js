@@ -132,7 +132,7 @@ router.route('/:id')
 	.get((req, res) => {
 		conn.query('SELECT * FROM users where UserId = ? LIMIT 1', [req.params.id], 
 		(error, user, fields) => {
-			var result = JSON.parse(JSON.stringify(user))
+			var result = user
 			
 			if(user.length > 0){
 				return res.json({
